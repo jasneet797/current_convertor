@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState,useEffect } from 'react'
 import './App.css'
 // import InputBox from './components/Input.jsx'
 import {InputBox} from './components'
@@ -7,7 +7,7 @@ function App() {
   const [count, setCount] = useState(0)
   const [amount,setAmount] =useState(0)
   const [from,setFrom] =useState("inr")
-  const [to,setTo] =useState("usp")
+  const [to,setTo] =useState("usd")
   const [convertedAmount,setConvertedAmount]=useState(0)
   const currencyInfo=useCurrencyinfo(from);
   const options=Object.keys(currencyInfo)
@@ -17,9 +17,13 @@ function App() {
     setAmount(convertedAmount)
     setConvertedAmount(amount)
   }
+//   useEffect=(()=>{
+//     console.log("set")
+//   })
   const convert=()=>{
     setConvertedAmount(amount*currencyInfo[to])
   }
+  console.log(`The amount is ${amount} and value of currency is ${currencyInfo[to]} and result is ${convertedAmount}`);
   return (
           <div
               className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
@@ -39,11 +43,12 @@ function App() {
                           <div className="w-full mb-1">
                               <InputBox
                                   label="From"
-                                  // amount={amount}
+                                //   amount={amount}
                                   currencyOptions={options}
                                   onCurrencyChange={(currency)=>{setFrom(currency)}}
                                   onAmountChange={(amount)=>{setAmount(amount)}}
                                   selectCurrency={from}
+                                //   currencytype={from}
                               />
                           </div>
                           <div className="relative w-full h-0.5">
@@ -58,11 +63,12 @@ function App() {
                           <div className="w-full mt-1 mb-4">
                               <InputBox
                                   label="To"
-                                  // amount={convertedAmount}
+                                  amount={convertedAmount}
                                   currencyOptions={options}
                                   onCurrencyChange={(currency)=>{setTo(currency)}}
                                   onAmountChange={(amount)=>{setAmount(convertedAmount)}}
-                                  selectCurrency={from}
+                                  selectCurrency={to}
+                                //   currencytype={to}
                                   // why selectCurrency(to)not working
                               />
                           </div>
